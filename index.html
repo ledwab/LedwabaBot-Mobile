@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <title>LedwabaBot</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    :root { color-scheme: dark; --bg:#080d17; --panel:#111a2a; --panel2:#172338; --line:#26344b; --text:#eef4ff; --muted:#94a3bb; --green:#32d583; --amber:#f7b84b; --red:#ff6b6b; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:linear-gradient(180deg,#0c1423,var(--bg) 38%); color:var(--text); min-height:100vh; }
+    header { padding:22px 18px 16px; border-bottom:1px solid var(--line); position:sticky; top:0; background:#0b1220ee; backdrop-filter:blur(12px); z-index:3; }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .logo { width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#f6c453,#b87916);color:#111827;font-weight:900;font-size:20px;box-shadow:0 7px 22px #f6c45322; }
+    h1 { margin:0;font-size:21px;letter-spacing:.2px; } .sub { color:var(--muted);font-size:12px;margin-top:3px; }
+    main { max-width:720px;margin:0 auto;padding:18px 14px 34px; }
+    .badge { display:inline-flex;align-items:center;gap:7px;border:1px solid #69532b;background:#2a2112;color:#ffd887;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:700; }
+    .dot { width:7px;height:7px;border-radius:50%;background:var(--amber); }
+    .hero { background:linear-gradient(145deg,#18263c,#101827);border:1px solid var(--line);border-radius:22px;padding:20px;margin-bottom:14px; }
+    .eyebrow { color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1.3px;font-weight:700; }
+    .symbol { font-size:28px;font-weight:800;margin:8px 0 3px; }
+    .desc { color:var(--muted);font-size:13px;line-height:1.5; }
+    .grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px; }
+    .card { background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0; }
+    .label { color:var(--muted);font-size:12px;margin-bottom:8px; }
+    .value { font-size:20px;font-weight:750;overflow-wrap:anywhere; }
+    .small { font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45; }
+    .section-title { margin:22px 2px 10px;font-size:16px; }
+    .row { display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line); }
+    .row:last-child { border-bottom:0; }
+    .row strong { font-size:14px; } .row span { color:var(--muted);font-size:12px;text-align:right; }
+    .actions { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px; }
+    button { border:0;border-radius:13px;padding:13px 12px;font-size:14px;font-weight:800;cursor:pointer; }
+    button:disabled { opacity:.45;cursor:not-allowed; }
+    .primary { background:var(--green);color:#052313; } .secondary { background:var(--panel2);color:var(--text);border:1px solid var(--line); }
+    .notice { border:1px solid #624d27;background:#241e13;color:#f7dca0;padding:13px 14px;border-radius:14px;font-size:12px;line-height:1.5;margin-top:14px; }
+    .field { display:flex;flex-direction:column;gap:7px;margin:12px 0; }
+    label { font-size:12px;color:var(--muted); }
+    input,select { width:100%;padding:12px;border-radius:11px;border:1px solid var(--line);background:#0b1220;color:var(--text);font:inherit; }
+    footer { color:#72819a;text-align:center;font-size:11px;line-height:1.6;padding:18px 8px 4px; }
+    .toast { display:none;position:fixed;bottom:18px;left:14px;right:14px;max-width:680px;margin:auto;background:#1b2a40;border:1px solid #3a4c68;padding:13px 15px;border-radius:14px;font-size:13px;z-index:10;box-shadow:0 10px 35px #0008; }
+    @media(min-width:560px){ main{padding:24px 20px 40px;} .hero{padding:24px;} }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">L</div>
+    <div><h1>LedwabaBot</h1><div class="sub">Gold scalper · Mobile control panel</div></div>
+  </div>
+</header>
+<main>
+  <div style="margin-bottom:14px"><span class="badge"><i class="dot"></i><span id="connectionBadge">Backend not connected</span></span></div>
+  <section class="hero">
+    <div class="eyebrow">Trading workspace</div>
+    <div class="symbol">XAUUSD <span style="color:#f6c453">◆</span></div>
+    <div class="desc">Gold · MetaTrader 5 connection will be added in the next integration step.</div>
+    <div class="actions">
+      <button class="primary" disabled title="Connect the trading backend first">Start bot</button>
+      <button class="secondary" disabled title="Connect the trading backend first">Stop bot</button>
+    </div>
+    <div class="small">Controls are disabled until the secure PC/server connection is configured.</div>
+  </section>
+  <div class="grid">
+    <section class="card"><div class="label">Market price</div><div class="value">—</div><div class="small">Waiting for live feed</div></section>
+    <section class="card"><div class="label">Bot status</div><div class="value" style="font-size:17px">Not connected</div><div class="small">No trades are being placed by this screen</div></section>
+    <section class="card"><div class="label">Open positions</div><div class="value">—</div><div class="small">Will show MT5 positions after connection</div></section>
+    <section class="card"><div class="label">Today's P/L</div><div class="value">—</div><div class="small">No account data received</div></section>
+  </div>
+
+  <h2 class="section-title">Bot configuration</h2>
+  <section class="card">
+    <div class="field"><label for="symbol">Trading symbol</label><input id="symbol" value="XAUUSD" autocomplete="off"></div>
+    <div class="field"><label for="risk">Risk per trade (%) — proposed setting</label><select id="risk"><option>0.25</option><option selected>0.50</option><option>1.00</option></select></div>
+    <div class="field"><label for="mode">Operating mode</label><select id="mode"><option selected>Demo / paper trading</option><option>Signals only</option></select></div>
+    <button class="secondary" style="width:100%" id="save">Save app preferences</button>
+    <div class="small">These preferences are saved on this device only. They do not change the Python bot yet.</div>
+  </section>
+
+  <h2 class="section-title">Connection checklist</h2>
+  <section class="card">
+    <div class="row"><strong>Android dashboard</strong><span style="color:var(--green)">Ready for preview</span></div>
+    <div class="row"><strong>Secure API connection</strong><span>Not configured</span></div>
+    <div class="row"><strong>MT5 trading engine</strong><span>Next step</span></div>
+    <div class="row"><strong>Demo testing</strong><span>Required before live use</span></div>
+  </section>
+  <div class="notice"><strong>Safety:</strong> This is the Android dashboard starter, not a live trading bot yet. It does not fetch prices or place trades. We must connect it to a secured backend and test the strategy on a demo account first.</div>
+  <footer>LedwabaBot · Mobile dashboard starter<br>Never share broker passwords, API keys, or account login details in this app or in chat.</footer>
+</main>
+<div class="toast" id="toast" role="status"></div>
+<script>
+  const toast = document.getElementById('toast');
+  function showToast(message){ toast.textContent=message;toast.style.display='block';setTimeout(()=>toast.style.display='none',2600); }
+  const saved = JSON.parse(localStorage.getItem('ledwababotPrefs') || '{}');
+  if(saved.symbol) document.getElementById('symbol').value=saved.symbol;
+  if(saved.risk) document.getElementById('risk').value=saved.risk;
+  if(saved.mode) document.getElementById('mode').value=saved.mode;
+  document.getElementById('save').addEventListener('click',()=>{
+    const prefs={symbol:document.getElementById('symbol').value.trim()||'XAUUSD',risk:document.getElementById('risk').value,mode:document.getElementById('mode').value};
+    localStorage.setItem('ledwababotPrefs',JSON.stringify(prefs));
+    showToast('Preferences saved on this device.');
+  });
+  if('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  }
+</script>
+</body>
+</html>

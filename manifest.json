@@ -1,0 +1,11 @@
+{
+  "name": "LedwabaBot",
+  "short_name": "LedwabaBot",
+  "description": "Mobile dashboard for the LedwabaBot gold trading system",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080d17",
+  "theme_color": "#0b1220",
+  "icons": []
+}
